@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Book Library</title>
+    <meta name="description" content="Free educational books for students. Search by title, author or topic and start reading.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        /* Set the saved theme before the page paints, to avoid a flash */
+        try {
+            document.documentElement.dataset.theme = localStorage.getItem("fbl-theme") ||
+                (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        } catch (e) {}
+    </script>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <a class="brand" href="#home">Free Book Library</a>
+        <nav aria-label="Main">
+            <a href="#home">Home</a>
+            <a href="#books">Books</a>
+            <a href="#categories">Categories</a>
+            <a href="#roadmaps">Roadmaps</a>
+            <a href="#calculator">CGPA</a>
+            <a href="#about">About</a>
+            <button class="theme-btn" id="themeToggle" type="button"></button>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="hero-inner">
+            <h1>Good books should cost nothing.</h1>
+            <p>Free textbooks for students. Search by title, author or topic, then read in your browser.</p>
+
+            <label class="search" for="searchBox">
+                <span class="visually-hidden">Search books</span>
+                <input type="search" id="searchBox" placeholder="Search for books, authors or topics" autocomplete="off">
+            </label>
+        </div>
+    </section>
+
+    <main>
+
+        <!-- Books -->
+        <section id="books" class="section">
+            <div class="section-head">
+                <h2>Available books</h2>
+                <p id="resultCount" aria-live="polite"></p>
+            </div>
+
+            <div class="selects">
+                <label>Branch
+                    <select id="branchSelect">
+                        <option value="all">All branches</option>
+                        <option value="C">CSE / IT</option>
+                        <option value="E">ECE / EEE</option>
+                        <option value="M">Mechanical / Civil</option>
+                    </select>
+                </label>
+                <label>Semester
+                    <select id="semSelect"><option value="all">All semesters</option><option value="1">Semester 1</option><option value="2">Semester 2</option><option value="3">Semester 3</option><option value="4">Semester 4</option><option value="5">Semester 5</option><option value="6">Semester 6</option><option value="7">Semester 7</option><option value="8">Semester 8</option></select>
+                </label>
+                <label>Level
+                    <select id="levelSelect">
+                        <option value="all">All levels</option>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                    </select>
+                </label>
+                <label>My list
+                    <select id="listSelect">
+                        <option value="all">All books</option>
+                        <option value="saved">Saved</option>
+                        <option value="read">Read</option>
+                        <option value="unread">Not read yet</option>
+                    </select>
+                </label>
+                <button class="chip" id="clearFilters" type="button">Clear filters</button>
+            </div>
+
+            <div class="filters" id="filters" role="group" aria-label="Filter by category"></div>
+
+            <div class="books" id="bookGrid"></div>
+            <noscript><p class="empty">Please turn on JavaScript to see the books.</p></noscript>
+
+            <p class="empty" id="emptyMsg" hidden>
+                No books match your search. Try a different word or clear the filters.
+            </p>
+        </section>
+
+        <!-- Categories -->
+        <section id="categories" class="section">
+            <div class="section-head">
+                <h2>Book categories</h2>
+                <p>Pick a category to see its books.</p>
+            </div>
+            <div class="categories" id="categoryGrid"></div>
+        </section>
+
+        <!-- Roadmaps -->
+        <section id="roadmaps" class="section">
+            <div class="section-head">
+                <h2>Learning roadmaps</h2>
+                <p>Follow the steps in order. Tap a book to open it.</p>
+            </div>
+            <div class="roadmaps" id="roadmapGrid"></div>
+        </section>
+
+        <!-- CGPA calculator -->
+        <section id="calculator" class="section">
+            <div class="section-head">
+                <h2>CGPA calculator</h2>
+                <p>Grade points differ by university. Check the scale in the dropdown.</p>
+            </div>
+            <div class="calc">
+                <div class="calc-card">
+                    <h3>SGPA (one semester)</h3>
+                    <div id="sgpaRows"></div>
+                    <button class="icon-btn" id="addSubject" type="button">+ Add subject</button>
+                    <p class="result">SGPA <strong id="sgpaResult">0.00</strong> <small>from <span id="sgpaCredits">0</span> credits</small></p>
+                </div>
+                <div class="calc-card">
+                    <h3>CGPA (all semesters)</h3>
+                    <div id="cgpaRows"></div>
+                    <button class="icon-btn" id="addSem" type="button">+ Add semester</button>
+                    <p class="result">CGPA <strong id="cgpaResult">0.00</strong> <small>about <span id="cgpaPct">0%</span> (CGPA &times; 9.5)</small></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section id="about" class="section about">
+            <h2>About our library</h2>
+            <p>
+                Free Book Library is a simple online platform where students
+                can explore and read useful educational books.
+            </p>
+            <p>
+                Our goal is to make educational resources easily accessible
+                to students through a simple and user-friendly website.
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; <span id="year"></span> Free Book Library. Made for students.</p>
+    </footer>
+
+    <!-- Book details -->
+    <dialog id="bookModal" class="modal" aria-labelledby="modalTitle">
+        <div class="modal-body">
+            <button class="close" type="button" aria-label="Close">&times;</button>
+
+            <div class="cover cover-sm" id="modalCover"></div>
+
+            <div class="modal-info">
+                <h2 id="modalTitle"></h2>
+                <p id="modalAuthor" class="meta"></p>
+                <p id="modalCategory" class="tag"></p>
+                <p id="modalFor" class="meta"></p>
+                <p id="modalDesc"></p>
+                <a id="readBookBtn" class="btn" href="#" target="_blank" rel="noopener">Read book</a>
+            </div>
+        </div>
+    </dialog>
+
+    <script src="script.js"></script>
+</body>
+</html>
